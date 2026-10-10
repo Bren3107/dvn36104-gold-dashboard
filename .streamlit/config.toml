@@ -1,0 +1,4 @@
+[theme]
+# The page is designed on light paper; without this, viewers whose system
+# is in dark mode get dark charts and controls on the light page.
+base = "light"
