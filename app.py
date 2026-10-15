@@ -1,4 +1,4 @@
-"""Gold stock-transfer monitor — desktop build.
+"""Gold stock-transfer monitor: desktop build.
 
 Run:  python ingest.py --synthetic   (once, or --all for live data)
       streamlit run app.py
@@ -146,7 +146,7 @@ st.markdown(f"""
 <span class="d">{pd.Timestamp(asof['price']).strftime('%A %d %B %Y')}</span></div>
 """, unsafe_allow_html=True)
 st.caption("Who holds the stock, and which way it is moving. "
-           "**Sample data for practice** — not real prices, holdings or flows.")
+           "**Sample data for practice.** Not real prices, holdings or flows.")
 
 KPIS = [
     ("price, $/oz", f"{p_now:,.0f}", f"{p_now/p_prev-1:+.1%} m/m",
@@ -176,8 +176,8 @@ tabD, tabI = st.tabs(["Declared", "Inferred"])
 # ============================================================== DECLARED =====
 with tabD:
     st.subheader("Price and its opportunity cost")
-    st.caption(f"Has the price detached from real yields, and by how much? — "
-               f"as of {fmt(asof['price'])}")
+    st.caption(f"Has the price detached from real yields, and by how much? "
+               f"As of {fmt(asof['price'])}")
     f = go.Figure()
     f.add_trace(go.Scatter(x=price.date, y=price.yield_implied_usd_oz,
         name="yield-implied", mode="lines",
@@ -191,13 +191,13 @@ with tabD:
     f.update_layout(hovermode="x unified")
     chart(f, 430)
     st.caption("Shaded wedge: actual price over the pre-2022 yield-implied "
-               "level — the premium a yield-indifferent buyer pays.")
+               "level, which is the premium a yield-indifferent buyer pays.")
 
     left, right = st.columns([3, 2], gap="large")
     with left:
         st.subheader("Western investor holdings")
         st.caption(f"Is the yield-sensitive holder buying this move or "
-                   f"selling into it? — as of {fmt(asof['etf'])}")
+                   f"selling into it? As of {fmt(asof['etf'])}")
         f = go.Figure(go.Scatter(x=etf.date, y=etf.tonnes, mode="lines",
             line=dict(color=dz.hue("West"), width=2.4)))
         events(f, label=False)
@@ -206,8 +206,8 @@ with tabD:
         chart(f, 330)
     with right:
         st.subheader("Declared official sector")
-        st.caption(f"Trailing 12-month reported change — IMF, "
-                   f"{fmt(asof['declared'])}")
+        st.caption(f"Trailing 12-month reported change (IMF, "
+                   f"{fmt(asof['declared'])})")
         s = t12.sort_values()
         f = go.Figure(go.Bar(x=s.values, y=s.index, orientation="h",
             marker_color=[dz.hue(c) for c in s.index],
@@ -236,8 +236,8 @@ with tabD:
     # the whole table, and what that adds up to. Stacked on one time axis so
     # each month sits directly above its running total.
     st.subheader("Explore one country")
-    st.caption(f"When did this bank buy or sell, and where has that left it? — "
-               f"every month from {fmt(declared.date.min())} to "
+    st.caption(f"When did this bank buy or sell, and where has that left it? "
+               f"Every month from {fmt(declared.date.min())} to "
                f"{fmt(asof['declared'])}, a longer span than the 12-month "
                f"ranking above. Sample data.")
     country = st.selectbox("Choose a country", t12.index.tolist(),
@@ -281,8 +281,8 @@ with tabD:
 # ============================================================== INFERRED =====
 with tabI:
     st.subheader("The gap")
-    st.caption(f"How much official buying goes unreported each quarter? — "
-               f"{gap.quarter_end.iloc[-1].to_period('Q')}")
+    st.caption(f"How much official buying goes unreported each quarter? "
+               f"As of {gap.quarter_end.iloc[-1].to_period('Q')}")
     f = go.Figure()
     f.add_trace(go.Scatter(x=gap.quarter_end, y=gap.imf_reported_t,
         mode="lines", line=dict(width=0), hoverinfo="skip"))
@@ -305,7 +305,7 @@ with tabI:
 
     st.subheader("Physical flow west to east")
     st.caption(f"Where are the bars going, and is the float being "
-               f"replenished? — Swiss customs, {fmt(asof['swiss'])}")
+               f"replenished? Swiss customs, {fmt(asof['swiss'])}")
     f = go.Figure()
     for dest in ["other", "UAE + Gulf", "UK + US", "Turkey", "India",
                  "China + HK"]:

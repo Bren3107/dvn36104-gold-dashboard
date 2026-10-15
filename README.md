@@ -22,7 +22,7 @@ recorded in notebook §7 and in the HTML mockup.
 
 `price` (COMEX futures + FRED real yield) works out of the box. `etf`,
 `declared`, `gap`, `swiss` raise NotImplementedError with the exact endpoint
-and schema to fill in — issuer URLs and the IMF SDMX call are the two pieces
+and schema to fill in. Issuer URLs and the IMF SDMX call are the two pieces
 that drift, so they are isolated in `ingest.py` and nowhere else. The app
 only ever reads `data/*.csv`; every pull also lands a timestamped vintage in
 `data/vintages/` because customs and IMF sources revise silently.
